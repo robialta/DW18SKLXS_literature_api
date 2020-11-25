@@ -1,30 +1,22 @@
 "use strict";
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable("Literature", {
+        await queryInterface.createTable("Collections", {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            title: {
-                type: Sequelize.STRING,
-            },
-            publication: {
-                type: Sequelize.STRING,
-            },
-            pages: {
-                type: Sequelize.STRING,
-            },
-            ISBN: {
-                type: Sequelize.STRING,
-            },
-            file: {
-                type: Sequelize.STRING,
-            },
-            status: {
-                type: Sequelize.STRING,
+            literatureId: {
+                allowNull: false,
+                type: Sequelize.INTEGER,
+                references: {
+                    model: "Literature",
+                    key: "id",
+                },
+                onUpdate: "CASCADE",
+                onDelete: "CASCADE",
             },
             userId: {
                 allowNull: false,
@@ -33,6 +25,8 @@ module.exports = {
                     model: "Users",
                     key: "id",
                 },
+                onUpdate: "CASCADE",
+                onDelete: "CASCADE",
             },
             createdAt: {
                 allowNull: false,
@@ -45,6 +39,6 @@ module.exports = {
         });
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable("Literature");
+        await queryInterface.dropTable("Collections");
     },
 };
