@@ -1,54 +1,6 @@
 const { Op } = require("sequelize");
 const { User, Literature, sequelize } = require("../../models");
 
-// exports.getBooksAproved = async (req, res) => {
-//     try {
-//         const books = await Book.findAll({
-//             where: { status: "Aproved" },
-//             attributes: [
-//                 "id",
-//                 "title",
-//                 "publication",
-//                 "pages",
-//                 "ISBN",
-//                 "aboutBook",
-//                 "file",
-//                 "status",
-//                 "cover",
-//             ],
-//             include: [
-//                 {
-//                     model: User,
-//                     as: "user",
-//                     attributes: [
-//                         "id",
-//                         "fullName",
-//                         "email",
-//                         "phone",
-//                         "address",
-//                         "gender",
-//                     ],
-//                 },
-//                 {
-//                     model: Category,
-//                     as: "category",
-//                     attributes: ["id", "name"],
-//                 },
-//             ],
-//         });
-//         res.send({
-//             message: "Successfully geting books",
-//             data: {
-//                 books,
-//             },
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.send({
-//             message: `Error geting book ${error}`,
-//         });
-//     }
-// };
 exports.getLiteratures = async (req, res) => {
     try {
         const literatures = await Literature.findAll({
@@ -58,14 +10,13 @@ exports.getLiteratures = async (req, res) => {
                 "publication",
                 "pages",
                 "ISBN",
-
                 "file",
                 "status",
             ],
             include: [
                 {
                     model: User,
-                    as: "author",
+                    as: "user",
                     attributes: [
                         "id",
                         "fullName",
@@ -76,6 +27,7 @@ exports.getLiteratures = async (req, res) => {
                     ],
                 },
             ],
+            order: [["createdAt", "DESC"]],
         });
         res.send({
             message: "Successfully geting literatures",
@@ -106,11 +58,12 @@ exports.detailLiterature = async (req, res) => {
                 "ISBN",
                 "file",
                 "status",
+                "author",
             ],
             include: [
                 {
                     model: User,
-                    as: "author",
+                    as: "user",
                     attributes: [
                         "id",
                         "fullName",
@@ -137,6 +90,7 @@ exports.detailLiterature = async (req, res) => {
 exports.addLiterature = async (req, res) => {
     try {
         const body = req.body;
+        body.file = req.file.filename;
         body.status = "Waiting to be verified";
         await Literature.create(body);
         res.status(200).send({
@@ -149,6 +103,7 @@ exports.addLiterature = async (req, res) => {
             message: `Error adding literature ${error}`,
         });
     }
+    console.log(body);
 };
 
 exports.searchLiterature = async (req, res) => {
@@ -157,12 +112,7 @@ exports.searchLiterature = async (req, res) => {
 
         const literatureFound = await Literature.findAll({
             where: {
-                // title: sequelize.where(
-                //     sequelize.fn("LOWER", sequelize.col("title")),
-                //     "LIKE",
-                //     "%" + title + "%"
-                // ),
-                [Op.or]: [
+                [Op.and]: [
                     {
                         title: {
                             [Op.like]: `%${title}%`,
@@ -174,6 +124,7 @@ exports.searchLiterature = async (req, res) => {
                         },
                     },
                 ],
+                status: "Aproved",
             },
             attributes: {
                 exclude: ["createdAt", "updatedAt"],
@@ -181,7 +132,7 @@ exports.searchLiterature = async (req, res) => {
             include: [
                 {
                     model: User,
-                    as: "author",
+                    as: "user",
                     attributes: {
                         exclude: ["createdAt", "updatedAt"],
                     },
@@ -200,48 +151,48 @@ exports.searchLiterature = async (req, res) => {
     }
 };
 
-// exports.updateBook = async (req, res) => {
-//     try {
-//         const body = req.body;
-//         const { id } = req.params;
-//         await Book.update(body, {
-//             where: {
-//                 id,
-//             },
-//         });
-//         res.status(200).send({
-//             message: "Successfully updating book",
-//             data: body,
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.status(400).send({
-//             message: `Error updating book ${error}`,
-//         });
-//     }
-// };
+exports.updateLiterature = async (req, res) => {
+    try {
+        const body = req.body;
+        const { id } = req.params;
+        await Literature.update(body, {
+            where: {
+                id,
+            },
+        });
+        res.status(200).send({
+            message: "Successfully updating book",
+            data: body,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(400).send({
+            message: `Error updating book ${error}`,
+        });
+    }
+};
 
-// exports.deleteBook = async (req, res) => {
-//     try {
-//         const { id } = req.params;
-//         await Book.destroy({
-//             where: {
-//                 id,
-//             },
-//         });
-//         res.send({
-//             message: "Successfully deleting book",
-//             data: {
-//                 id,
-//             },
-//         });
-//     } catch (error) {
-//         console.log(error);
-//         res.send({
-//             message: `Error deleting book ${error}`,
-//         });
-//     }
-// };
+exports.deleteLiterature = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Literature.destroy({
+            where: {
+                id,
+            },
+        });
+        res.send({
+            message: "Successfully deleting book",
+            data: {
+                id,
+            },
+        });
+    } catch (error) {
+        console.log(error);
+        res.send({
+            message: `Error deleting book ${error}`,
+        });
+    }
+};
 
 exports.myLiteratures = async (req, res) => {
     const { id } = req.params;
@@ -256,22 +207,15 @@ exports.myLiteratures = async (req, res) => {
                 "publication",
                 "pages",
                 "ISBN",
-
                 "file",
                 "status",
+                "author",
             ],
             include: [
                 {
                     model: User,
-                    as: "author",
-                    attributes: [
-                        "id",
-                        "fullName",
-                        "email",
-                        "phone",
-                        "address",
-                        "gender",
-                    ],
+                    as: "user",
+                    attributes: { exclude: ["createdAt", "updatedAt"] },
                 },
             ],
         });

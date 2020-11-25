@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const jwtKey = "koderahasia";
 
 exports.authenticated = (req, res, next) => {
     let header, token;
@@ -17,7 +18,7 @@ exports.authenticated = (req, res, next) => {
 
     //check if token exist
     try {
-        const verified = jwt.verify(token, process.env.JWT_KEY);
+        const verified = jwt.verify(token, jwtKey);
 
         req.user = verified;
         next(); //Lanjut

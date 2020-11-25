@@ -1,6 +1,7 @@
 const { User } = require("../../models");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
+const key = "koderahasia";
 const joi = require("@hapi/joi");
 
 exports.checkAuth = async (req, res) => {
@@ -37,7 +38,7 @@ exports.login = async (req, res) => {
         const { error } = schema.validate(req.body);
 
         if (error) {
-            return res.status(400).send({
+            return res.status(201).send({
                 error: {
                     message: error.details[0].message,
                 },
@@ -51,7 +52,7 @@ exports.login = async (req, res) => {
         });
 
         if (!user) {
-            return res.status(400).send({
+            return res.status(201).send({
                 error: {
                     message: "Email not existed",
                 },
@@ -59,9 +60,9 @@ exports.login = async (req, res) => {
         }
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
-            return res.status(400).send({
+            return res.status(201).send({
                 error: {
-                    message: "Email or password invalid",
+                    message: "Incorrect password",
                 },
             });
         }
@@ -69,10 +70,10 @@ exports.login = async (req, res) => {
             {
                 id: user.id,
             },
-            process.env.JWT_KEY
+            key
         );
 
-        res.send({
+        res.status(200).send({
             message: "Login Success",
             data: {
                 email: user.email,
@@ -84,7 +85,7 @@ exports.login = async (req, res) => {
     } catch (err) {
         console.log(err);
         res.status(400).send({
-            message: `${err}`,
+            error: { message: "SERVER ERROR" },
         });
     }
 };
@@ -100,7 +101,7 @@ exports.register = async (req, res) => {
         });
 
         if (checkEmail) {
-            return res.status(400).send({
+            return res.status(2001).send({
                 error: {
                     message: "Email already been existed",
                 },
@@ -124,7 +125,7 @@ exports.register = async (req, res) => {
             {
                 id: user.id,
             },
-            process.env.JWT_KEY
+            key
         );
 
         res.status(200).send({
@@ -137,9 +138,9 @@ exports.register = async (req, res) => {
     } catch (err) {
         console.log(err);
 
-        res.status(500).send({
+        res.status(400).send({
             error: {
-                message: "Server ERROR",
+                message: "SERVER ERROR",
             },
         });
     }
