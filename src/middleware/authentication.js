@@ -17,7 +17,7 @@ exports.authenticated = (req, res, next) => {
 
     //check if token exist
     try {
-        const verified = jwt.verify(token, process.env.SECRET_KEY);
+        const verified = jwt.verify(token, process.env.JWT_KEY);
 
         req.user = verified;
         next(); //Lanjut
