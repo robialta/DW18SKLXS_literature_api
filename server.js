@@ -9,8 +9,9 @@ const port = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(bodyParser.json());
+app.use(express.static("uploads"));
 
-app.get("/", (req, res) => {
+https: app.get("/", (req, res) => {
     res.send("Wellcome to Literature Production");
 });
 
