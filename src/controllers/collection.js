@@ -17,7 +17,7 @@ exports.collection = async (req, res) => {
         //     },
         // });
 
-        const coll = User.findAll({
+        const coll = await User.findAll({
             include: {
                 model: Literature,
                 as: "collections",
