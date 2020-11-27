@@ -3,23 +3,39 @@ const { User, Literature, Collection } = require("../../models");
 exports.collection = async (req, res) => {
     try {
         const { id } = req.params;
-        const collections = await User.findOne({
-            where: {
-                id,
-            },
+        // const collections = await User.findOne({
+        //     where: {
+        //         id,
+        //     },
+        //     include: {
+        //         model: Literature,
+        //         as: "collections",
+        //         through: {
+        //             model: Collection,
+        //             attributes: ["id"],
+        //         },
+        //     },
+        // });
+
+        const coll = Users.findAll({
             include: {
                 model: Literature,
-                as: "collections",
+                as: "literatures",
                 through: {
                     model: Collection,
-                    attributes: ["id"],
+                    as: "data",
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"],
+                    },
                 },
+                exclude: ["createdAt", "updatedAt"],
             },
+            exclude: ["createdAt", "updatedAt"],
         });
 
         res.send({
             message: "Success",
-            data: collections,
+            data: coll,
         });
     } catch (err) {
         res.status(400).send({
