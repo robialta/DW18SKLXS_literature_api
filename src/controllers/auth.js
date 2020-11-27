@@ -19,8 +19,10 @@ exports.checkAuth = async (req, res) => {
             data: user,
         });
     } catch (error) {
-        res.send({
-            message: `Error ${error}`,
+        res.status(400).send({
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -83,7 +85,9 @@ exports.login = async (req, res) => {
         });
     } catch (err) {
         res.status(400).send({
-            error: { message: "SERVER ERROR" },
+            error: {
+                message: err,
+            },
         });
     }
 };

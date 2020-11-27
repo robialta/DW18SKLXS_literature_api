@@ -25,9 +25,10 @@ exports.collection = async (req, res) => {
             data: collections.collections,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).send({
-            message: `Error ${err}`,
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -42,9 +43,10 @@ exports.addCollection = async (req, res) => {
             data: body,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).send({
-            message: `Error ${err}`,
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -60,9 +62,10 @@ exports.removeCollection = async (req, res) => {
             id: id,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).send({
-            message: `Error ${err}`,
+            error: {
+                message: err,
+            },
         });
     }
 };

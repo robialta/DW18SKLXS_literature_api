@@ -15,7 +15,9 @@ exports.profile = async (req, res) => {
         });
     } catch (err) {
         res.status(400).send({
-            message: `Error ${err}`,
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -30,7 +32,9 @@ exports.getUsers = async (req, res) => {
         });
     } catch (err) {
         res.status(400).send({
-            message: `Error ${err}`,
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -51,7 +55,9 @@ exports.updateProfile = async (req, res) => {
         });
     } catch (err) {
         res.status(400).send({
-            message: `Error ${err}`,
+            error: {
+                message: err,
+            },
         });
     }
 };

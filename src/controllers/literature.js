@@ -36,8 +36,10 @@ exports.getLiteratures = async (req, res) => {
             },
         });
     } catch (error) {
-        res.send({
-            message: `Error geting literatures ${error}`,
+        res.status(400).send({
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -79,8 +81,10 @@ exports.detailLiterature = async (req, res) => {
             data: detailedliterature,
         });
     } catch (error) {
-        res.send({
-            message: `Error get detail literature ${error}`,
+        res.status(400).send({
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -97,7 +101,9 @@ exports.addLiterature = async (req, res) => {
         });
     } catch (error) {
         res.status(400).send({
-            message: `Error adding literature ${error}`,
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -141,7 +147,9 @@ exports.searchLiterature = async (req, res) => {
         });
     } catch (err) {
         res.status(400).send({
-            message: `${err}`,
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -161,7 +169,9 @@ exports.updateLiterature = async (req, res) => {
         });
     } catch (error) {
         res.status(400).send({
-            message: `Error updating literature ${error}`,
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -181,8 +191,10 @@ exports.deleteLiterature = async (req, res) => {
             },
         });
     } catch (error) {
-        res.send({
-            message: `Error deleting literature ${error}`,
+        res.status(400).send({
+            error: {
+                message: err,
+            },
         });
     }
 };
@@ -217,8 +229,10 @@ exports.myLiteratures = async (req, res) => {
             data: myLiteratures,
         });
     } catch (error) {
-        res.send({
-            message: `Error ${error}`,
+        res.status(400).send({
+            error: {
+                message: err,
+            },
         });
     }
 };
