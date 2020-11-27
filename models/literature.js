@@ -29,7 +29,7 @@ module.exports = (sequelize, DataTypes) => {
             title: DataTypes.STRING,
             publication: DataTypes.STRING,
             pages: DataTypes.STRING,
-            ISBN: DataTypes.STRING,
+            isbn: DataTypes.STRING,
             file: DataTypes.STRING,
             status: DataTypes.STRING,
             userId: DataTypes.INTEGER,
