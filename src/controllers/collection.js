@@ -3,7 +3,7 @@ const { User, Literature, Collection } = require("../../models");
 exports.collection = async (req, res) => {
     try {
         const { id } = req.params;
-        const collections = await User.findOne({
+        const collections = await User.findAll({
             where: {
                 id,
             },
