@@ -1,48 +1,14 @@
 const express = require("express");
 const router = express.Router();
-const multer = require("multer");
-const path = require("path");
-
-const uploadFIle = (fieldName) => {
-    const diskStorage = multer.diskStorage({
-        destination: (req, file, cb) => {
-            cb(null, `uploads/${file.fieldname}s`);
-        },
-        filename: (req, file, cb) => {
-            fieldName === "literature"
-                ? cb(
-                      null,
-                      `${
-                          req.body.title
-                              .toLowerCase()
-                              .replace(/ /g, "_")
-                              .slice(0, 50) + path.extname(file.originalname)
-                      }`
-                  )
-                : cb(
-                      null,
-                      `${
-                          fieldName +
-                          Date.now() +
-                          path.extname(file.originalname)
-                      }`
-                  );
-        },
-    });
-    const upload = multer({
-        storage: diskStorage,
-    }).single(fieldName);
-
-    return (req, res, next) => {
-        upload(req, res, (err) => {
-            return next();
-        });
-    };
-};
+const { cloudUploadFiles } = require("../middleware/cloudUploadFiles");
 
 const { register, login, checkAuth } = require("../controllers/auth");
 const { authenticated } = require("../middleware/authentication");
-const { collection, addCollection } = require("../controllers/collection");
+const {
+    collection,
+    addCollection,
+    removeCollection,
+} = require("../controllers/collection");
 const { updateProfile, profile, getUsers } = require("../controllers/user");
 const {
     getLiteratures,
@@ -61,9 +27,9 @@ router.get("/profile/:id", authenticated, profile);
 router.get("/users", authenticated, getUsers);
 router.patch("/updateprofile/:id", authenticated, updateProfile);
 router.post(
-    "/uploadprofile",
+    "/uploadprofile/:id",
     authenticated,
-    uploadFIle("photo"),
+    cloudUploadFiles("photo"),
     (req, res) => {
         const uploadedFileNAme = req.file.filename;
         res.send({ message: "Success", data: uploadedFileNAme });
@@ -79,11 +45,12 @@ router.get("/search", authenticated, searchLiterature);
 router.post(
     "/literature",
     authenticated,
-    uploadFIle("literature"),
+    cloudUploadFiles("literature"),
     addLiterature
 );
 
 router.get("/mycollections/:id", authenticated, collection);
 router.post("/addcollection", authenticated, addCollection);
+router.delete("/removecollection/:id", authenticated, removeCollection);
 
 module.exports = router;

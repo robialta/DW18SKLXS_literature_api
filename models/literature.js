@@ -10,14 +10,17 @@ module.exports = (sequelize, DataTypes) => {
         static associate(models) {
             // define association here
             Literature.belongsTo(models.User, {
+                as: "user",
                 foreignKey: {
                     name: "userId",
                 },
-                as: "user",
             });
-            Literature.hasMany(models.Collection, {
-                foreignKey: "literatureId",
-                as: "library",
+            Literature.belongsToMany(models.User, {
+                as: "readers",
+                through: {
+                    model: "Bookmark",
+                    as: "info",
+                },
             });
         }
     }
@@ -25,12 +28,12 @@ module.exports = (sequelize, DataTypes) => {
         {
             title: DataTypes.STRING,
             publication: DataTypes.STRING,
-            isbn: DataTypes.STRING,
             pages: DataTypes.STRING,
-            author: DataTypes.STRING,
-            userId: DataTypes.INTEGER,
-            status: DataTypes.STRING,
+            ISBN: DataTypes.STRING,
             file: DataTypes.STRING,
+            status: DataTypes.STRING,
+            userId: DataTypes.INTEGER,
+            author: DataTypes.STRING,
         },
         {
             sequelize,

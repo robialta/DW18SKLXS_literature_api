@@ -1,4 +1,4 @@
-const { User, Literature, Collection } = require("../../models");
+const { User } = require("../../models");
 
 exports.profile = async (req, res) => {
     try {
@@ -14,7 +14,6 @@ exports.profile = async (req, res) => {
             data: profile,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).send({
             message: `Error ${err}`,
         });
@@ -30,7 +29,6 @@ exports.getUsers = async (req, res) => {
             data: users,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).send({
             message: `Error ${err}`,
         });
@@ -52,7 +50,6 @@ exports.updateProfile = async (req, res) => {
             data: body,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).send({
             message: `Error ${err}`,
         });

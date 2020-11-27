@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { User, Literature, sequelize } = require("../../models");
+const { User, Literature } = require("../../models");
 
 exports.getLiteratures = async (req, res) => {
     try {
@@ -36,7 +36,6 @@ exports.getLiteratures = async (req, res) => {
             },
         });
     } catch (error) {
-        console.log(error);
         res.send({
             message: `Error geting literatures ${error}`,
         });
@@ -80,9 +79,8 @@ exports.detailLiterature = async (req, res) => {
             data: detailedliterature,
         });
     } catch (error) {
-        console.log(error);
         res.send({
-            message: `Error get detail book ${error}`,
+            message: `Error get detail literature ${error}`,
         });
     }
 };
@@ -98,12 +96,10 @@ exports.addLiterature = async (req, res) => {
             data: body,
         });
     } catch (error) {
-        console.log(error);
         res.status(400).send({
             message: `Error adding literature ${error}`,
         });
     }
-    console.log(body);
 };
 
 exports.searchLiterature = async (req, res) => {
@@ -144,7 +140,6 @@ exports.searchLiterature = async (req, res) => {
             data: literatureFound,
         });
     } catch (err) {
-        console.log(err);
         res.status(400).send({
             message: `${err}`,
         });
@@ -161,13 +156,12 @@ exports.updateLiterature = async (req, res) => {
             },
         });
         res.status(200).send({
-            message: "Successfully updating book",
+            message: "Successfully updating literature",
             data: body,
         });
     } catch (error) {
-        console.log(error);
         res.status(400).send({
-            message: `Error updating book ${error}`,
+            message: `Error updating literature ${error}`,
         });
     }
 };
@@ -181,15 +175,14 @@ exports.deleteLiterature = async (req, res) => {
             },
         });
         res.send({
-            message: "Successfully deleting book",
+            message: "Successfully deleting literature",
             data: {
                 id,
             },
         });
     } catch (error) {
-        console.log(error);
         res.send({
-            message: `Error deleting book ${error}`,
+            message: `Error deleting literature ${error}`,
         });
     }
 };
@@ -220,11 +213,10 @@ exports.myLiteratures = async (req, res) => {
             ],
         });
         res.status(200).send({
-            message: "Succesfully load my books",
+            message: "Succesfully load my literatures",
             data: myLiteratures,
         });
     } catch (error) {
-        console.log(error);
         res.send({
             message: `Error ${error}`,
         });

@@ -48,3 +48,21 @@ exports.addCollection = async (req, res) => {
         });
     }
 };
+
+exports.removeCollection = async (req, res) => {
+    try {
+        const { id } = req.params;
+        await Collection.destroy({
+            where: { id },
+        });
+        res.send({
+            message: "Success",
+            id: id,
+        });
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({
+            message: `Error ${err}`,
+        });
+    }
+};

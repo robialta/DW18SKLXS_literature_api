@@ -9,26 +9,25 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            User.hasMany(models.Literature, {
-                foreignKey: "userId",
-                as: "literature",
-            });
-            User.hasMany(models.Collection, {
-                foreignKey: "userId",
-                as: "library",
+            User.belongsToMany(models.Literature, {
+                as: "collections",
+                through: {
+                    model: "Collections",
+                    as: "info",
+                },
             });
         }
     }
     User.init(
         {
-            fullname: DataTypes.STRING,
+            fullName: DataTypes.STRING,
             email: DataTypes.STRING,
             password: DataTypes.STRING,
             gender: DataTypes.STRING,
             address: DataTypes.STRING,
             phone: DataTypes.STRING,
-            profile: DataTypes.STRING,
             type: DataTypes.STRING,
+            profile: DataTypes.STRING,
         },
         {
             sequelize,
