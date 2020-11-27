@@ -18,9 +18,9 @@ exports.checkAuth = async (req, res) => {
             message: "Successfully load user",
             data: user,
         });
-    } catch (error) {
+    } catch (err) {
         res.status(400).send({
-            error: {
+            err: {
                 message: err,
             },
         });
@@ -36,12 +36,12 @@ exports.login = async (req, res) => {
             password: joi.string().min(8).required(),
         });
 
-        const { error } = schema.validate(req.body);
+        const { err } = schema.validate(req.body);
 
-        if (error) {
+        if (err) {
             return res.status(201).send({
-                error: {
-                    message: error.details[0].message,
+                err: {
+                    message: err.details[0].message,
                 },
             });
         }
@@ -54,7 +54,7 @@ exports.login = async (req, res) => {
 
         if (!user) {
             return res.status(201).send({
-                error: {
+                err: {
                     message: "Email not existed",
                 },
             });
@@ -62,7 +62,7 @@ exports.login = async (req, res) => {
         const validPassword = await bcrypt.compare(password, user.password);
         if (!validPassword) {
             return res.status(201).send({
-                error: {
+                err: {
                     message: "Incorrect password",
                 },
             });
@@ -85,7 +85,7 @@ exports.login = async (req, res) => {
         });
     } catch (err) {
         res.status(400).send({
-            error: {
+            err: {
                 message: err,
             },
         });
@@ -104,7 +104,7 @@ exports.register = async (req, res) => {
 
         if (checkEmail) {
             return res.status(2001).send({
-                error: {
+                err: {
                     message: "Email already been existed",
                 },
             });
@@ -139,7 +139,7 @@ exports.register = async (req, res) => {
         });
     } catch (err) {
         res.status(400).send({
-            error: {
+            err: {
                 message: err,
             },
         });

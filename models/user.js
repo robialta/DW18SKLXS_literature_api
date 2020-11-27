@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
                 as: "collections",
                 through: {
                     model: "Collections",
-                    as: "info",
+                    as: "data",
                 },
             });
         }

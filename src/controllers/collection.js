@@ -12,17 +12,14 @@ exports.collection = async (req, res) => {
                 as: "collections",
                 through: {
                     model: Collection,
-                },
-                include: {
-                    model: User,
-                    as: "user",
+                    attributes: ["id"],
                 },
             },
         });
 
         res.send({
             message: "Success",
-            data: collections.collections,
+            data: collections,
         });
     } catch (err) {
         res.status(400).send({

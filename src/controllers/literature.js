@@ -35,7 +35,7 @@ exports.getLiteratures = async (req, res) => {
                 literatures,
             },
         });
-    } catch (error) {
+    } catch (err) {
         res.status(400).send({
             error: {
                 message: err,
@@ -80,7 +80,7 @@ exports.detailLiterature = async (req, res) => {
             message: "Successfully get detail literature",
             data: detailedliterature,
         });
-    } catch (error) {
+    } catch (err) {
         res.status(400).send({
             error: {
                 message: err,
@@ -99,7 +99,7 @@ exports.addLiterature = async (req, res) => {
             message: "Successfully adding literature",
             data: body,
         });
-    } catch (error) {
+    } catch (err) {
         res.status(400).send({
             error: {
                 message: err,
@@ -167,7 +167,7 @@ exports.updateLiterature = async (req, res) => {
             message: "Successfully updating literature",
             data: body,
         });
-    } catch (error) {
+    } catch (err) {
         res.status(400).send({
             error: {
                 message: err,
@@ -190,7 +190,7 @@ exports.deleteLiterature = async (req, res) => {
                 id,
             },
         });
-    } catch (error) {
+    } catch (err) {
         res.status(400).send({
             error: {
                 message: err,
@@ -228,7 +228,7 @@ exports.myLiteratures = async (req, res) => {
             message: "Succesfully load my literatures",
             data: myLiteratures,
         });
-    } catch (error) {
+    } catch (err) {
         res.status(400).send({
             error: {
                 message: err,
