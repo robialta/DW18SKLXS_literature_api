@@ -15,13 +15,6 @@ module.exports = (sequelize, DataTypes) => {
                     name: "userId",
                 },
             });
-            Literature.belongsToMany(models.User, {
-                as: "collectors",
-                through: {
-                    model: "Collections",
-                    as: "data",
-                },
-            });
         }
     }
     Literature.init(

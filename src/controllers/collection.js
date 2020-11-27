@@ -3,19 +3,19 @@ const { User, Literature, Collection } = require("../../models");
 exports.collection = async (req, res) => {
     try {
         const { id } = req.params;
-        const collections = await User.findAll({
-            where: {
-                id,
-            },
-            include: {
-                model: Literature,
-                as: "collections",
-                through: {
-                    model: Collection,
-                    // attributes: ["id"],
-                },
-            },
-        });
+        // const collections = await User.findAll({
+        //     where: {
+        //         id,
+        //     },
+        //     include: {
+        //         model: Literature,
+        //         as: "collections",
+        //         through: {
+        //             model: Collection,
+        //             // attributes: ["id"],
+        //         },
+        //     },
+        // });
 
         // const coll = await User.findAll({
         //     include: {
@@ -32,6 +32,16 @@ exports.collection = async (req, res) => {
         //     },
         //     exclude: ["createdAt", "updatedAt"],
         // });
+
+        const collections = await Collection.findAll({
+            where: {
+                userId: id,
+            },
+            include: {
+                model: Literature,
+                as: "literature",
+            },
+        });
 
         res.send({
             message: "Success",

@@ -9,13 +9,6 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
-            User.belongsToMany(models.Literature, {
-                as: "collections",
-                through: {
-                    model: "Collections",
-                    as: "data",
-                },
-            });
         }
     }
     User.init(

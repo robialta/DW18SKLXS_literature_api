@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
          */
         static associate(models) {
             // define association here
+            Collection.belongsTo(models.Literature, {
+                as: "literature",
+                foreignKey: "literatureId",
+            });
         }
     }
     Collection.init(
