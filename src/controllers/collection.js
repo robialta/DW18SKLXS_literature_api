@@ -17,10 +17,10 @@ exports.collection = async (req, res) => {
         //     },
         // });
 
-        const coll = Users.findAll({
+        const coll = User.findAll({
             include: {
                 model: Literature,
-                as: "literatures",
+                as: "collections",
                 through: {
                     model: Collection,
                     as: "data",

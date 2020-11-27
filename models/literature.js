@@ -20,9 +20,6 @@ module.exports = (sequelize, DataTypes) => {
                 through: {
                     model: "Collections",
                     as: "data",
-                    foreignKey: {
-                        name: "userId",
-                    },
                 },
             });
         }
