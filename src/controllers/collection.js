@@ -7,14 +7,14 @@ exports.collection = async (req, res) => {
             where: {
                 id,
             },
-            // include: {
-            //     model: Literature,
-            //     as: "collections",
-            //     through: {
-            //         model: Collection,
-            //         attributes: ["id"],
-            //     },
-            // },
+            include: {
+                model: Literature,
+                as: "collections",
+                through: {
+                    model: Collection,
+                    // attributes: ["id"],
+                },
+            },
         });
 
         // const coll = await User.findAll({
