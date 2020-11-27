@@ -136,7 +136,7 @@ exports.register = async (req, res) => {
     } catch (err) {
         res.status(400).send({
             error: {
-                message: "SERVER ERROR",
+                message: err,
             },
         });
     }
