@@ -11,6 +11,9 @@ exports.collections = async (req, res) => {
             include: {
                 model: Literature,
                 as: "literature",
+                where: {
+                    status: "Aproved",
+                },
                 include: [
                     {
                         model: User,
@@ -52,7 +55,7 @@ exports.collection = async (req, res) => {
     const { userId, literatureId } = req.query;
     console.log(literatureId, userId);
     try {
-        const collection = await Collection.findAll({
+        const data = await Collection.findAll({
             where: {
                 userId: userId,
                 literatureId: literatureId,
@@ -60,6 +63,9 @@ exports.collection = async (req, res) => {
             include: {
                 model: Literature,
                 as: "literature",
+                where: {
+                    status: "Aproved",
+                },
                 include: [
                     {
                         model: User,
@@ -84,6 +90,8 @@ exports.collection = async (req, res) => {
                 exclude: ["createdAt", "updatedAt"],
             },
         });
+
+        const collection = data.map((literature) => literature.literature);
 
         res.send({
             message: "Success",
