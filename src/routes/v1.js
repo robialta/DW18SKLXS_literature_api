@@ -5,6 +5,7 @@ const { cloudUploadFiles } = require("../middleware/cloudUploadFiles");
 const { register, login, checkAuth } = require("../controllers/auth");
 const { authenticated } = require("../middleware/authentication");
 const {
+    collections,
     collection,
     addCollection,
     removeCollection,
@@ -49,7 +50,8 @@ router.post(
     addLiterature
 );
 
-router.get("/mycollections/:id", authenticated, collection);
+router.get("/mycollections/:id", authenticated, collections);
+router.get("/mycollection", authenticated, collection);
 router.post("/addcollection", authenticated, addCollection);
 router.delete("/removecollection/:id", authenticated, removeCollection);
 

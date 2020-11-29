@@ -103,7 +103,7 @@ exports.register = async (req, res) => {
         });
 
         if (checkEmail) {
-            return res.status(2001).send({
+            return res.status(201).send({
                 err: {
                     message: "Email already been existed",
                 },
