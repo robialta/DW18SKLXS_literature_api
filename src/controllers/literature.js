@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { User, Literature } = require("../../models");
+const { User, Literature, Collection } = require("../../models");
 
 exports.getLiteratures = async (req, res) => {
     try {
@@ -73,6 +73,13 @@ exports.detailLiterature = async (req, res) => {
                         "address",
                         "gender",
                     ],
+                },
+                {
+                    model: Collection,
+                    as: "collection",
+                    attributes: {
+                        exclude: ["createdAt", "updatedAt"],
+                    },
                 },
             ],
         });

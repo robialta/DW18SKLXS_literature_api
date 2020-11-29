@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
                     name: "userId",
                 },
             });
+
+            Literature.hasOne(models.Collection, {
+                as: "collection",
+                foreignKey: "literatureId",
+            });
         }
     }
     Literature.init(

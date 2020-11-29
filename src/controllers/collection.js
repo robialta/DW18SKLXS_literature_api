@@ -3,45 +3,37 @@ const { User, Literature, Collection } = require("../../models");
 exports.collection = async (req, res) => {
     try {
         const { id } = req.params;
-        // const collections = await User.findAll({
-        //     where: {
-        //         id,
-        //     },
-        //     include: {
-        //         model: Literature,
-        //         as: "collections",
-        //         through: {
-        //             model: Collection,
-        //             // attributes: ["id"],
-        //         },
-        //     },
-        // });
 
-        // const coll = await User.findAll({
-        //     include: {
-        //         model: Literature,
-        //         as: "collections",
-        //         through: {
-        //             model: Collection,
-        //             as: "data",
-        //             attributes: {
-        //                 exclude: ["createdAt", "updatedAt"],
-        //             },
-        //         },
-        //         exclude: ["createdAt", "updatedAt"],
-        //     },
-        //     exclude: ["createdAt", "updatedAt"],
-        // });
-
-        const collections = await Collection.findAll({
+        const data = await Collection.findAll({
             where: {
                 userId: id,
             },
             include: {
                 model: Literature,
                 as: "literature",
+                include: [
+                    {
+                        model: User,
+                        as: "user",
+                        attributes: {
+                            exclude: ["createdAt", "updatedAt"],
+                        },
+                    },
+                    {
+                        model: Collection,
+                        as: "collection",
+                        attributes: {
+                            exclude: ["createdAt", "updatedAt"],
+                        },
+                    },
+                ],
+                attributes: {
+                    exclude: ["createdAt", "updatedAt"],
+                },
             },
         });
+
+        const collections = data.map((el) => el.literature);
 
         res.send({
             message: "Success",
